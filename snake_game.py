@@ -7,6 +7,7 @@ Requires: pygame (install with `pip install pygame`)
 import pygame
 import random
 import sys
+import os
 
 # --- Config ---
 WINDOW_WIDTH = 640
@@ -73,8 +74,28 @@ class SnakeGame:
         self.font = pygame.font.SysFont("Arial", 20)
         self.large_font = pygame.font.SysFont("Arial", 48, bold=True)
 
+        # High score file in the same directory as the script
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        self.high_score_file = os.path.join(script_dir, "highscore.txt")
+        self.high_score = self.load_high_score()
+
         # Initialize game state
         self.reset()
+
+    def load_high_score(self):
+        """Load the high score from file if available, else return 0."""
+        if os.path.exists(self.high_score_file):
+            try:
+                with open(self.high_score_file, "r") as f:
+                    return int(f.read().strip())
+            except (ValueError, FileNotFoundError):
+                return 0
+        return 0
+    
+    def save_high_score(self):
+        """Save the current high score to file."""
+        with open(self.high_score_file, "w") as f:
+            f.write(str(self.high_score))
 
     def reset(self):
         start_x = GRID_WIDTH // 2
@@ -125,6 +146,10 @@ class SnakeGame:
         # Collision with self?
         if new_head in self.snake:
             self.game_over = True
+            # Check and save high score
+            if self.score > self.high_score:
+                self.high_score = self.score
+                self.save_high_score()
             return
 
         # Move snake
@@ -140,6 +165,9 @@ class SnakeGame:
             # If food is None, snake filled the board — player wins (treat as game over)
             if self.food is None:
                 self.game_over = True
+                if self.score > self.high_score:
+                    self.high_score = self.score
+                    self.save_high_score()
         else:
             # Remove tail segment (normal movement)
             self.snake.pop()
@@ -181,24 +209,20 @@ class SnakeGame:
         # If game over
         if self.game_over:
             over_surf = self.large_font.render("GAME OVER", True, YELLOW)
-            rect = over_surf.get_rect(
-                center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 30)
-            )
+            rect = over_surf.get_rect(center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 60))
             self.screen.blit(over_surf, rect)
 
             score_surf = self.font.render(f"Final score: {self.score}", True, WHITE)
-            rect2 = score_surf.get_rect(
-                center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 20)
-            )
+            rect2 = score_surf.get_rect(center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 10))
             self.screen.blit(score_surf, rect2)
 
-            hint_surf = self.font.render(
-                "Press R to restart or Q/ESC to quit", True, WHITE
-            )
-            rect3 = hint_surf.get_rect(
-                center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 50)
-            )
-            self.screen.blit(hint_surf, rect3)
+            high_score_surf = self.font.render(f"High score: {self.high_score}", True, WHITE)
+            rect3 = high_score_surf.get_rect(center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 20))
+            self.screen.blit(high_score_surf, rect3)
+
+            hint_surf = self.font.render("Press R to restart or Q/ESC to quit", True, WHITE)
+            rect4 = hint_surf.get_rect(center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 50))
+            self.screen.blit(hint_surf, rect4)
 
         pygame.display.flip()
 
