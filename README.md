@@ -8,7 +8,6 @@ The player controls a snake that grows longer each time it eats food. The object
 ## 🎮 Features
 
 - **Classic Snake Gameplay** – grid-based movement, growing with each food.
-- **Wrap-Around Walls** – snake loops from one edge of the screen to the opposite side (configurable).
 - **Scoring System** – score increases by 1 point per food eaten, displayed on-screen.
 - **Persistent High Score** – your best score is saved between sessions and shown on the Game Over screen.
 - **Dynamic Speed** – snake speed increases slightly every 5 food items.
@@ -60,20 +59,9 @@ python snake_game.py
 
 - Every 5 points, the snake’s speed increases slightly.
 
-- Colliding with yourself ends the game.
+- Colliding with the wall or yourself ends the game.
 
 - After game over, your highest score is automatically saved in `highscore.txt` (stored in the same folder as the game).
-
-- With the default settings, hitting the wall causes wrap-around.
-
-  - To make walls lethal instead, edit snake_game.py:
-
-```python
-# In SnakeGame.update(), replace wrap-around with bounds check:
-if not (0 <= new_head[0] < GRID_WIDTH and 0 <= new_head[1] < GRID_HEIGHT):
-    self.game_over = True
-    return
-```
 
 ## 🔧 Customization
 

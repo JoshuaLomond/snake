@@ -140,8 +140,14 @@ class SnakeGame:
         dx, dy = self.direction
         new_head = (head_x + dx, head_y + dy)
 
-        # Wrap-around behavior: (comment out to make walls lethal)
-        new_head = (new_head[0] % GRID_WIDTH, new_head[1] % GRID_HEIGHT)
+        # Collision with walls?
+        if not (0 <= new_head[0] < GRID_WIDTH and 0 <= new_head[1] < GRID_HEIGHT):
+            self.game_over = True
+            # Check and save high score
+            if self.score > self.high_score:
+                self.high_score = self.score
+                self.save_high_score()
+            return
 
         # Collision with self?
         if new_head in self.snake:
