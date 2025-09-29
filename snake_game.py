@@ -79,8 +79,28 @@ class SnakeGame:
         self.high_score_file = os.path.join(script_dir, "highscore.txt")
         self.high_score = self.load_high_score()
 
+        # Start screen flag
+        self.show_start_screen = True
+
         # Initialize game state
         self.reset()
+
+    def draw_start_screen(self):
+        self.screen.fill(BLACK)
+    
+        title_surf = self.large_font.render("SNAKE", True, GREEN)
+        title_rect = title_surf.get_rect(center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 60))
+        self.screen.blit(title_surf, title_rect)
+    
+        prompt_surf = self.font.render("Press ENTER to play", True, WHITE)
+        prompt_rect = prompt_surf.get_rect(center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 10))
+        self.screen.blit(prompt_surf, prompt_rect)
+    
+        high_score_surf = self.font.render(f"High score: {self.high_score}", True, YELLOW)
+        high_score_rect = high_score_surf.get_rect(center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 40))
+        self.screen.blit(high_score_surf, high_score_rect)
+    
+        pygame.display.flip()
 
     def load_high_score(self):
         """Load the high score from file if available, else return 0."""
@@ -244,22 +264,29 @@ class SnakeGame:
                     if event.key in (pygame.K_q, pygame.K_ESCAPE):
                         pygame.quit()
                         sys.exit()
-                    if event.key == pygame.K_r:
-                        self.reset()
-                    if event.key == pygame.K_p:
-                        self.paused = not self.paused
-                    # If game over, allow pressing R to restart
-                    if not self.game_over:
-                        self.handle_key(event.key)
 
-            # Update game logic
-            self.update()
-
-            # Draw everything
-            self.render()
-
-            # Tick
-            self.clock.tick(self.speed)
+                    if self.show_start_screen:
+                        if event.key == pygame.K_RETURN:
+                            self.show_start_screen = False
+                            self.reset()
+                    else:
+                        if event.key == pygame.K_r:
+                            self.reset()
+                        if event.key == pygame.K_p:
+                            self.paused = not self.paused
+                        # If game over, allow pressing R to restart
+                        if not self.game_over:
+                            self.handle_key(event.key)
+        
+            if self.show_start_screen:
+                self.draw_start_screen()
+            else:
+                # Update game logic
+                self.update()
+                # Draw everything
+                self.render()
+                # Tick
+                self.clock.tick(self.speed)
 
 
 if __name__ == "__main__":
