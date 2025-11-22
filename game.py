@@ -1,6 +1,16 @@
 import pygame
 import os
-from settings import SCREEN_WIDTH, SCREEN_HEIGHT, BLACK, FPS, GRID_SIZE
+from settings import (
+    BLACK,
+    FPS,
+    GRID_SIZE,
+    PLAY_AREA_X,
+    PLAY_AREA_Y,
+    PLAY_AREA_WIDTH,
+    PLAY_AREA_HEIGHT,
+    GRID_COLOR,
+    WHITE,
+)
 from snake import Snake
 from food import Food
 from ui import draw_score, draw_start_screen, draw_game_over_screen
@@ -35,10 +45,10 @@ class Game:
         # Check wall collision
         head = self.snake.positions[0]
         if (
-            head[0] < 0
-            or head[0] >= SCREEN_WIDTH
-            or head[1] < 0
-            or head[1] >= SCREEN_HEIGHT
+            head[0] < PLAY_AREA_X
+            or head[0] >= PLAY_AREA_X + PLAY_AREA_WIDTH
+            or head[1] < PLAY_AREA_Y
+            or head[1] >= PLAY_AREA_Y + PLAY_AREA_HEIGHT
         ):
             return False  # Game Over (Wall collision)
 
@@ -58,11 +68,39 @@ class Game:
 
     def draw(self):
         self.surface.fill(BLACK)
+
+        # Draw Grid
+        for x in range(0, PLAY_AREA_WIDTH, GRID_SIZE):
+            pygame.draw.line(
+                self.surface,
+                GRID_COLOR,
+                (PLAY_AREA_X + x, PLAY_AREA_Y),
+                (PLAY_AREA_X + x, PLAY_AREA_Y + PLAY_AREA_HEIGHT),
+            )
+        for y in range(0, PLAY_AREA_HEIGHT, GRID_SIZE):
+            pygame.draw.line(
+                self.surface,
+                GRID_COLOR,
+                (PLAY_AREA_X, PLAY_AREA_Y + y),
+                (PLAY_AREA_X + PLAY_AREA_WIDTH, PLAY_AREA_Y + y),
+            )
+
+        # Draw Border
+        pygame.draw.rect(
+            self.surface,
+            WHITE,
+            (
+                PLAY_AREA_X - 2,
+                PLAY_AREA_Y - 2,
+                PLAY_AREA_WIDTH + 4,
+                PLAY_AREA_HEIGHT + 4,
+            ),
+            2,
+        )
+
         self.snake.draw(self.surface)
         self.food.draw(self.surface)
-        draw_score(
-            self.surface, self.snake.score, self.high_score
-        )  # Need to implement draw_score in ui.py properly
+        draw_score(self.surface, self.snake.score, self.high_score)
         pygame.display.flip()
 
     def run(self):

@@ -60,5 +60,5 @@ def draw_game_over_screen(surface, score, high_score):
 
 
 def draw_score(surface, score, high_score):
-    draw_text(surface, "Score: " + str(score), 18, SCREEN_WIDTH - 60, 10)
-    draw_text(surface, "High Score: " + str(high_score), 18, 60, 10)
+    draw_text(surface, "Score: " + str(score), 24, SCREEN_WIDTH // 2, 20)
+    draw_text(surface, "High Score: " + str(high_score), 18, SCREEN_WIDTH // 2, 45)

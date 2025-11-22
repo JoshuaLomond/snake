@@ -58,7 +58,6 @@ python main.py
 - Add a pause menu
 - Add a settings menu
 - Add a main menu
-- Add a grid
 
 ## License
 

@@ -1,11 +1,24 @@
 import pygame
-from settings import SCREEN_WIDTH, SCREEN_HEIGHT, GRID_SIZE, GREEN, WHITE
+from settings import (
+    GRID_SIZE,
+    GREEN,
+    WHITE,
+    PLAY_AREA_X,
+    PLAY_AREA_Y,
+    PLAY_AREA_WIDTH,
+    PLAY_AREA_HEIGHT,
+)
 
 
 class Snake:
     def __init__(self):
         self.length = 1
-        self.positions = [((SCREEN_WIDTH // 2), (SCREEN_HEIGHT // 2))]
+        self.positions = [
+            (
+                (PLAY_AREA_X + PLAY_AREA_WIDTH // 2),
+                (PLAY_AREA_Y + PLAY_AREA_HEIGHT // 2),
+            )
+        ]
         self.direction = (0, 0)
         self.color = GREEN
         self.score = 0
@@ -40,7 +53,12 @@ class Snake:
 
     def reset(self):
         self.length = 1
-        self.positions = [((SCREEN_WIDTH // 2), (SCREEN_HEIGHT // 2))]
+        self.positions = [
+            (
+                (PLAY_AREA_X + PLAY_AREA_WIDTH // 2),
+                (PLAY_AREA_Y + PLAY_AREA_HEIGHT // 2),
+            )
+        ]
         self.direction = (0, 0)
         self.score = 0
 

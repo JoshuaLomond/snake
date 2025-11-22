@@ -1,6 +1,13 @@
 import pygame
 import random
-from settings import SCREEN_WIDTH, SCREEN_HEIGHT, GRID_SIZE, RED
+from settings import (
+    GRID_SIZE,
+    RED,
+    PLAY_AREA_X,
+    PLAY_AREA_Y,
+    PLAY_AREA_WIDTH,
+    PLAY_AREA_HEIGHT,
+)
 
 
 class Food:
@@ -11,8 +18,10 @@ class Food:
 
     def randomize_position(self):
         self.position = (
-            random.randint(0, (SCREEN_WIDTH // GRID_SIZE) - 1) * GRID_SIZE,
-            random.randint(0, (SCREEN_HEIGHT // GRID_SIZE) - 1) * GRID_SIZE,
+            PLAY_AREA_X
+            + random.randint(0, (PLAY_AREA_WIDTH // GRID_SIZE) - 1) * GRID_SIZE,
+            PLAY_AREA_Y
+            + random.randint(0, (PLAY_AREA_HEIGHT // GRID_SIZE) - 1) * GRID_SIZE,
         )
 
     def draw(self, surface):
