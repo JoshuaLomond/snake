@@ -25,13 +25,21 @@ class Snake:
 
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP and self.direction != (0, 1):
+            if (
+                event.key == pygame.K_UP or event.key == pygame.K_w
+            ) and self.direction != (0, 1):
                 self.direction = (0, -1)
-            elif event.key == pygame.K_DOWN and self.direction != (0, -1):
+            elif (
+                event.key == pygame.K_DOWN or event.key == pygame.K_s
+            ) and self.direction != (0, -1):
                 self.direction = (0, 1)
-            elif event.key == pygame.K_LEFT and self.direction != (1, 0):
+            elif (
+                event.key == pygame.K_LEFT or event.key == pygame.K_a
+            ) and self.direction != (1, 0):
                 self.direction = (-1, 0)
-            elif event.key == pygame.K_RIGHT and self.direction != (-1, 0):
+            elif (
+                event.key == pygame.K_RIGHT or event.key == pygame.K_d
+            ) and self.direction != (-1, 0):
                 self.direction = (1, 0)
 
     def move(self):

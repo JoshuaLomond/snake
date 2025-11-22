@@ -23,10 +23,23 @@ A classic Snake game implemented in Python using the Pygame library.
 
    ```bash
    python3 -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
    ```
 
-3. **Install dependencies:**
+3. Use the venv:
+
+   On Windows:
+
+   ```bash
+   .\venv\Scripts\activate
+   ```
+
+   On Mac/Linux:
+
+   ```bash
+   source venv/bin/activate
+   ```
+
+4. **Install dependencies:**
 
    ```bash
    pip install -r requirements.txt
@@ -42,7 +55,7 @@ python main.py
 
 ## Controls
 
-- **Arrow Keys**: Move the snake (Up, Down, Left, Right)
+- **Arrow Keys / WASD**: Move the snake (Up, Down, Left, Right)
 - **Any Key**: Start the game / Restart after Game Over
 
 ## Game Rules
