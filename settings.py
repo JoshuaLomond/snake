@@ -3,6 +3,7 @@ import pygame
 # Screen dimensions
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
+
 # Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -12,8 +13,9 @@ BLUE = (0, 0, 255)
 GRAY = (128, 128, 128)
 
 # Game settings
-FPS = 15
+FPS = 10
 SNAKE_SPEED = 10  # Pixels per frame
+SPEED_INCREMENT = 1  # FPS increase per 5 points
 
 # Border settings
 BORDER_WIDTH = 40

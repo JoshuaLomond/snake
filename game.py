@@ -10,6 +10,7 @@ from settings import (
     PLAY_AREA_HEIGHT,
     GRID_COLOR,
     WHITE,
+    SPEED_INCREMENT,
 )
 from snake import Snake
 from food import Food
@@ -55,7 +56,7 @@ class Game:
         # Check food collision
         if self.snake.positions[0] == self.food.position:
             self.snake.length += 1
-            self.snake.score += 10
+            self.snake.score += 1
             self.food.randomize_position()
             # Ensure food doesn't spawn on snake
             while self.food.position in self.snake.positions:
@@ -107,11 +108,17 @@ class Game:
         draw_start_screen(self.surface)
 
         while self.running:
-            self.clock.tick(FPS)
+            # Calculate current FPS based on score
+            # Increase speed by SPEED_INCREMENT for every 5 points
+            current_fps = FPS + (self.snake.score // 5) * SPEED_INCREMENT
+            self.clock.tick(current_fps)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        self.running = False
                 self.snake.handle_event(event)
 
             if not self.update():

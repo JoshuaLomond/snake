@@ -1,5 +1,5 @@
 import pygame
-from settings import WHITE, BLACK, SCREEN_WIDTH, SCREEN_HEIGHT
+from settings import RED, GREEN, WHITE, GRAY, BLACK, SCREEN_WIDTH, SCREEN_HEIGHT
 
 
 def draw_text(surface, text, size, x, y, color=WHITE):
@@ -12,11 +12,41 @@ def draw_text(surface, text, size, x, y, color=WHITE):
 
 def draw_start_screen(surface):
     surface.fill(BLACK)
-    draw_text(surface, "SNAKE GAME", 64, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 4)
-    draw_text(surface, "Arrows to move", 22, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
+
+    # Title
+    draw_text(surface, "SNAKE GAME", 64, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 4, GREEN)
+
+    # Instructions
     draw_text(
-        surface, "Press any key to play", 18, SCREEN_WIDTH // 2, SCREEN_HEIGHT * 3 / 4
+        surface, "Use Arrow Keys to Move", 24, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2
     )
+    draw_text(
+        surface,
+        "Eat food to grow and earn points",
+        20,
+        SCREEN_WIDTH // 2,
+        SCREEN_HEIGHT // 2 + 30,
+        GRAY,
+    )
+
+    # Controls
+    draw_text(
+        surface,
+        "Press any key to Start",
+        22,
+        SCREEN_WIDTH // 2,
+        SCREEN_HEIGHT * 3 / 4,
+        WHITE,
+    )
+    draw_text(
+        surface,
+        "Press ESC to Quit",
+        18,
+        SCREEN_WIDTH // 2,
+        SCREEN_HEIGHT * 3 / 4 + 30,
+        RED,
+    )
+
     pygame.display.flip()
     waiting = True
     while waiting:
@@ -25,6 +55,9 @@ def draw_start_screen(surface):
                 pygame.quit()
                 exit()
             if event.type == pygame.KEYUP:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    exit()
                 waiting = False
 
 
@@ -56,6 +89,9 @@ def draw_game_over_screen(surface, score, high_score):
                 pygame.quit()
                 exit()
             if event.type == pygame.KEYUP:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    exit()
                 waiting = False
 
 
