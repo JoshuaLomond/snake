@@ -98,3 +98,16 @@ def draw_game_over_screen(surface, score, high_score):
 def draw_score(surface, score, high_score):
     draw_text(surface, "Score: " + str(score), 24, SCREEN_WIDTH // 2, 20)
     draw_text(surface, "High Score: " + str(high_score), 18, SCREEN_WIDTH // 2, 45)
+
+
+def draw_pause_menu(surface):
+    # Draw a semi-transparent overlay
+    overlay = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
+    overlay.set_alpha(128)
+    overlay.fill(BLACK)
+    surface.blit(overlay, (0, 0))
+
+    draw_text(surface, "PAUSED", 64, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 4)
+    draw_text(
+        surface, "Press Enter to Resume", 22, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2
+    )

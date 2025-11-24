@@ -14,7 +14,7 @@ from settings import (
 )
 from snake import Snake
 from food import Food
-from ui import draw_score, draw_start_screen, draw_game_over_screen
+from ui import draw_score, draw_start_screen, draw_game_over_screen, draw_pause_menu
 
 
 class Game:
@@ -25,6 +25,7 @@ class Game:
         self.food = Food()
         self.high_score = self.load_high_score()
         self.running = True
+        self.paused = False
 
     def load_high_score(self):
         if os.path.exists("highscore.txt"):
@@ -119,7 +120,15 @@ class Game:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.running = False
-                self.snake.handle_event(event)
+                    if event.key == pygame.K_RETURN:
+                        self.paused = not self.paused
+                if not self.paused:
+                    self.snake.handle_event(event)
+
+            if self.paused:
+                draw_pause_menu(self.surface)
+                pygame.display.flip()
+                continue
 
             if not self.update():
                 self.save_high_score()
